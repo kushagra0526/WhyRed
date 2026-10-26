@@ -1,3 +1,6 @@
+import { trimLog } from "./trim.ts";
+import { errorSignature } from "./verdict.ts";
+
 const RUN_URL =
   /^https:\/\/github\.com\/([^/]+)\/([^/]+)\/actions\/runs\/(\d+)(?:\/job\/(\d+))?\/?$/;
 
@@ -61,7 +64,65 @@ export async function fetchFailure(url: string) {
     event: run.event,
     workflowId: run.workflow_id,
     pullRequests: run.pull_requests,
+    createdAt: run.created_at as string,
     job: { id: job.id, name: job.name, steps: job.steps },
     log,
   };
+}
+
+type Run = {
+  owner: string;
+  repo: string;
+  runId: number;
+  workflowId: number;
+  headSha: string;
+  pullRequests: { number: number }[];
+  createdAt: string;
+  job: { name: string };
+};
+
+export async function fetchVerdictInput(run: Run, currentSignature: string) {
+  const base = `${API}/repos/${run.owner}/${run.repo}`;
+  const { default_branch } = await getJson<{ default_branch: string }>(base);
+
+  const { workflow_runs } = await getJson<{ workflow_runs: any[] }>(
+    `${base}/actions/workflows/${run.workflowId}/runs?branch=${default_branch}&status=completed&per_page=10`
+  );
+  const runs = workflow_runs
+    .filter((r) => r.id !== run.runId && r.created_at < run.createdAt)
+    .sort((a, b) => (a.created_at < b.created_at ? 1 : -1));
+
+  const history: { conclusion: "success" | "failure"; signature?: string }[] = [];
+  let failures = 0;
+  for (const r of runs) {
+    if (r.conclusion === "success") {
+      history.push({ conclusion: "success" });
+      continue;
+    }
+    if (r.conclusion !== "failure") continue;
+    const entry: { conclusion: "failure"; signature?: string } = { conclusion: "failure" };
+    history.push(entry);
+    if (failures++ >= 3) continue;
+
+    const { jobs } = await getJson<{ jobs: Job[] }>(`${base}/actions/runs/${r.id}/jobs`);
+    const job = jobs.find((j) => j.name === run.job.name);
+    if (!job) continue;
+    const logRes = await fetch(`${base}/actions/jobs/${job.id}/logs`, { headers: headers() });
+    if (!logRes.ok) continue;
+    entry.signature = errorSignature(trimLog(await logRes.text()));
+  }
+
+  const changedFiles = run.pullRequests[0]
+    ? (
+        await getJson<{ filename: string }[]>(
+          `${base}/pulls/${run.pullRequests[0].number}/files?per_page=100`
+        )
+      ).map((f) => f.filename)
+    : (
+        await getJson<{ files: { filename: string }[] }>(
+          `${base}/commits/${run.headSha}`
+        )
+      ).files.map((f) => f.filename);
+
+  return { history, changedFiles };
 }
