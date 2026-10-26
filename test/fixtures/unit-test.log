@@ -1,0 +1,183 @@
+﻿2026-10-26T19:42:54.3064217Z Current runner version: '2.338.0'
+2026-10-26T19:42:54.3095035Z ##[group]Runner Image Provisioner
+2026-10-26T19:42:54.3096995Z Hosted Compute Agent
+2026-10-26T19:42:54.3097691Z Version: 20261021.618
+2026-10-26T19:42:54.3098460Z Commit: 21505ad2541d5be6135ed84fc33697146cf75b8e
+2026-10-26T19:42:54.3099261Z Build Date: 2026-10-21T00:45:21Z
+2026-10-26T19:42:54.3100073Z Worker ID: {7d287626-a618-4c35-91df-02918125d528}
+2026-10-26T19:42:54.3100810Z Region: eastus
+2026-10-26T19:42:54.3101372Z Cloud: Azure
+2026-10-26T19:42:54.3102031Z ##[endgroup]
+2026-10-26T19:42:54.3105038Z ##[group]Operating System
+2026-10-26T19:42:54.3106133Z Ubuntu
+2026-10-26T19:42:54.3107033Z 24.04.5
+2026-10-26T19:42:54.3107848Z LTS
+2026-10-26T19:42:54.3108519Z ##[endgroup]
+2026-10-26T19:42:54.3109128Z ##[group]Runner Image
+2026-10-26T19:42:54.3109840Z Image: ubuntu-24.04
+2026-10-26T19:42:54.3110453Z Version: 20261012.334.1
+2026-10-26T19:42:54.3111782Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20261012.334/images/ubuntu/Ubuntu2404-Readme.md
+2026-10-26T19:42:54.3113655Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20261012.334
+2026-10-26T19:42:54.3114722Z ##[endgroup]
+2026-10-26T19:42:54.3115941Z ##[group]GITHUB_TOKEN Permissions
+2026-10-26T19:42:54.3118221Z Contents: read
+2026-10-26T19:42:54.3118913Z Metadata: read
+2026-10-26T19:42:54.3119836Z Packages: read
+2026-10-26T19:42:54.3120588Z ##[endgroup]
+2026-10-26T19:42:54.3122964Z Secret source: Actions
+2026-10-26T19:42:54.3124020Z Cache mode: write
+2026-10-26T19:42:54.3125284Z Prepare workflow directory
+2026-10-26T19:42:54.3469761Z Prepare all required actions
+2026-10-26T19:42:54.3517967Z Getting action download info
+2026-10-26T19:42:54.5774280Z Download action repository 'actions/checkout@v4' (SHA:11d5960a326750d5838078e36cf38b85af677262)
+2026-10-26T19:42:54.6931381Z Download action repository 'actions/setup-node@v4' (SHA:49933ea5288caeca8642d1e84afbd3f7d6820020)
+2026-10-26T19:42:54.8843801Z Complete job name: test
+2026-10-26T19:42:54.9708114Z ##[group]Run actions/checkout@v4
+2026-10-26T19:42:54.9709004Z with:
+2026-10-26T19:42:54.9709463Z   repository: kushagra0526/whyred-demo
+2026-10-26T19:42:54.9713806Z   token: ***
+2026-10-26T19:42:54.9714275Z   ssh-strict: true
+2026-10-26T19:42:54.9714721Z   ssh-user: git
+2026-10-26T19:42:54.9715174Z   persist-credentials: true
+2026-10-26T19:42:54.9715667Z   clean: true
+2026-10-26T19:42:54.9716117Z   sparse-checkout-cone-mode: true
+2026-10-26T19:42:54.9716660Z   fetch-depth: 1
+2026-10-26T19:42:54.9717091Z   fetch-tags: false
+2026-10-26T19:42:54.9717541Z   show-progress: true
+2026-10-26T19:42:54.9717985Z   lfs: false
+2026-10-26T19:42:54.9718395Z   submodules: false
+2026-10-26T19:42:54.9718845Z   set-safe-directory: true
+2026-10-26T19:42:54.9719365Z   allow-unsafe-pr-checkout: false
+2026-10-26T19:42:54.9720220Z ##[endgroup]
+2026-10-26T19:42:55.0724346Z Syncing repository: kushagra0526/whyred-demo
+2026-10-26T19:42:55.0726202Z ##[group]Getting Git version info
+2026-10-26T19:42:55.0727055Z Working directory is '/home/runner/work/whyred-demo/whyred-demo'
+2026-10-26T19:42:55.0728131Z [command]/usr/bin/git version
+2026-10-26T19:42:55.0903033Z git version 2.55.0
+2026-10-26T19:42:55.0929493Z ##[endgroup]
+2026-10-26T19:42:55.0947613Z Temporarily overriding HOME='/home/runner/work/_temp/f11a8733-6228-4eb5-b3a4-03e94e9d21f8' before making global git config changes
+2026-10-26T19:42:55.0949262Z Adding repository directory to the temporary git global config as a safe directory
+2026-10-26T19:42:55.0953405Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/whyred-demo/whyred-demo
+2026-10-26T19:42:55.1016507Z Deleting the contents of '/home/runner/work/whyred-demo/whyred-demo'
+2026-10-26T19:42:55.1035364Z ##[group]Initializing the repository
+2026-10-26T19:42:55.1036487Z [command]/usr/bin/git init /home/runner/work/whyred-demo/whyred-demo
+2026-10-26T19:42:55.1163455Z hint: Using 'master' as the name for the initial branch. This default branch name
+2026-10-26T19:42:55.1165731Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+2026-10-26T19:42:55.1168145Z hint: to use in all of your new repositories, which will suppress this warning,
+2026-10-26T19:42:55.1169728Z hint: call:
+2026-10-26T19:42:55.1170602Z hint:
+2026-10-26T19:42:55.1171724Z hint: 	git config --global init.defaultBranch <name>
+2026-10-26T19:42:55.1173560Z hint:
+2026-10-26T19:42:55.1174768Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+2026-10-26T19:42:55.1176554Z hint: 'development'. The just-created branch can be renamed via this command:
+2026-10-26T19:42:55.1177921Z hint:
+2026-10-26T19:42:55.1178636Z hint: 	git branch -m <name>
+2026-10-26T19:42:55.1179430Z hint:
+2026-10-26T19:42:55.1180476Z hint: Disable this message with "git config set advice.defaultBranchName false"
+2026-10-26T19:42:55.1182308Z Initialized empty Git repository in /home/runner/work/whyred-demo/whyred-demo/.git/
+2026-10-26T19:42:55.1186563Z [command]/usr/bin/git remote add origin https://github.com/kushagra0526/whyred-demo
+2026-10-26T19:42:55.1246049Z ##[endgroup]
+2026-10-26T19:42:55.1247372Z ##[group]Disabling automatic garbage collection
+2026-10-26T19:42:55.1249517Z [command]/usr/bin/git config --local gc.auto 0
+2026-10-26T19:42:55.1287860Z ##[endgroup]
+2026-10-26T19:42:55.1289506Z ##[group]Setting up auth
+2026-10-26T19:42:55.1304221Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-10-26T19:42:55.1345664Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-10-26T19:42:55.1759932Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-10-26T19:42:55.1800201Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-10-26T19:42:55.2028118Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-10-26T19:42:55.2066892Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-10-26T19:42:55.2293630Z [command]/usr/bin/git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ***
+2026-10-26T19:42:55.2335254Z ##[endgroup]
+2026-10-26T19:42:55.2336537Z ##[group]Fetching the repository
+2026-10-26T19:42:55.2345974Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +4e1b87ce2d500861d59c73b69814a97c07c35adf:refs/remotes/origin/main
+2026-10-26T19:42:55.4408019Z From https://github.com/kushagra0526/whyred-demo
+2026-10-26T19:42:55.4409231Z  * [new ref]         4e1b87ce2d500861d59c73b69814a97c07c35adf -> origin/main
+2026-10-26T19:42:55.4412819Z ##[endgroup]
+2026-10-26T19:42:55.4413767Z ##[group]Determining the checkout info
+2026-10-26T19:42:55.4415537Z ##[endgroup]
+2026-10-26T19:42:55.4421847Z [command]/usr/bin/git sparse-checkout disable
+2026-10-26T19:42:55.4476633Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+2026-10-26T19:42:55.4508702Z ##[group]Checking out the ref
+2026-10-26T19:42:55.4513319Z [command]/usr/bin/git checkout --progress --force -B main refs/remotes/origin/main
+2026-10-26T19:42:55.4579167Z Switched to a new branch 'main'
+2026-10-26T19:42:55.4585896Z branch 'main' set up to track 'origin/main'.
+2026-10-26T19:42:55.4591695Z ##[endgroup]
+2026-10-26T19:42:55.4635730Z [command]/usr/bin/git log -1 --format=%H
+2026-10-26T19:42:55.4661969Z 4e1b87ce2d500861d59c73b69814a97c07c35adf
+2026-10-26T19:42:55.4953203Z ##[group]Run actions/setup-node@v4
+2026-10-26T19:42:55.4953840Z with:
+2026-10-26T19:42:55.4954249Z   node-version: 20
+2026-10-26T19:42:55.4954695Z   always-auth: false
+2026-10-26T19:42:55.4955161Z   check-latest: false
+2026-10-26T19:42:55.4958877Z   token: ***
+2026-10-26T19:42:55.4959290Z ##[endgroup]
+2026-10-26T19:42:55.6401557Z Attempting to download 20...
+2026-10-26T19:42:55.6514325Z (node:2265) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2026-10-26T19:42:55.6516542Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-10-26T19:42:55.9915337Z Acquiring 20.20.2 - x64 from https://github.com/actions/node-versions/releases/download/20.20.2-23521894959/node-20.20.2-linux-x64.tar.gz
+2026-10-26T19:42:56.3337944Z Extracting ...
+2026-10-26T19:42:56.3474296Z [command]/usr/bin/tar xz --strip 1 --warning=no-unknown-keyword --overwrite -C /home/runner/work/_temp/7bf32d5a-cbcf-41a7-8dc3-c968f30e7d99 -f /home/runner/work/_temp/359977d6-1fb3-476b-afd1-b99a47768bc2
+2026-10-26T19:42:57.3675069Z Adding to the cache ...
+2026-10-26T19:42:59.2323336Z ##[group]Environment details
+2026-10-26T19:42:59.4635689Z node: v20.20.2
+2026-10-26T19:42:59.4636564Z npm: 10.8.2
+2026-10-26T19:42:59.4637031Z yarn: 1.22.22
+2026-10-26T19:42:59.4637989Z ##[endgroup]
+2026-10-26T19:42:59.4851568Z ##[group]Run node --test test/failing.test.js
+2026-10-26T19:42:59.4852112Z [36;1mnode --test test/failing.test.js[0m
+2026-10-26T19:42:59.5190153Z shell: /usr/bin/bash -e {0}
+2026-10-26T19:42:59.5190632Z ##[endgroup]
+2026-10-26T19:42:59.5691515Z TAP version 13
+2026-10-26T19:42:59.6048396Z # Subtest: adds two numbers
+2026-10-26T19:42:59.6059769Z not ok 1 - adds two numbers
+2026-10-26T19:42:59.6061379Z   ---
+2026-10-26T19:42:59.6061965Z   duration_ms: 2.410514
+2026-10-26T19:42:59.6063326Z   location: '/home/runner/work/whyred-demo/whyred-demo/test/failing.test.js:4:1'
+2026-10-26T19:42:59.6064396Z   failureType: 'testCodeFailure'
+2026-10-26T19:42:59.6065124Z   error: |-
+2026-10-26T19:42:59.6065775Z     Expected values to be strictly equal:
+2026-10-26T19:42:59.6066477Z     
+2026-10-26T19:42:59.6067366Z     2 !== 3
+2026-10-26T19:42:59.6068245Z     
+2026-10-26T19:42:59.6068884Z   code: 'ERR_ASSERTION'
+2026-10-26T19:42:59.6069320Z   name: 'AssertionError'
+2026-10-26T19:42:59.6069825Z   expected: 3
+2026-10-26T19:42:59.6070202Z   actual: 2
+2026-10-26T19:42:59.6070523Z   operator: 'strictEqual'
+2026-10-26T19:42:59.6070845Z   stack: |-
+2026-10-26T19:42:59.6071496Z     TestContext.<anonymous> (/home/runner/work/whyred-demo/whyred-demo/test/failing.test.js:5:10)
+2026-10-26T19:42:59.6072196Z     Test.runInAsyncScope (node:async_hooks:206:9)
+2026-10-26T19:42:59.6073091Z     Test.run (node:internal/test_runner/test:796:25)
+2026-10-26T19:42:59.6073813Z     Test.processPendingSubtests (node:internal/test_runner/test:526:18)
+2026-10-26T19:42:59.6074429Z     node:internal/test_runner/harness:255:12
+2026-10-26T19:42:59.6074898Z     node:internal/process/task_queues:140:7
+2026-10-26T19:42:59.6075439Z     AsyncResource.runInAsyncScope (node:async_hooks:206:9)
+2026-10-26T19:42:59.6076091Z     AsyncResource.runMicrotask (node:internal/process/task_queues:137:8)
+2026-10-26T19:42:59.6076616Z   ...
+2026-10-26T19:42:59.6147386Z 1..1
+2026-10-26T19:42:59.6148673Z # tests 1
+2026-10-26T19:42:59.6150877Z # suites 0
+2026-10-26T19:42:59.6151875Z # pass 0
+2026-10-26T19:42:59.6153183Z # fail 1
+2026-10-26T19:42:59.6154613Z # cancelled 0
+2026-10-26T19:42:59.6155594Z # skipped 0
+2026-10-26T19:42:59.6158067Z # todo 0
+2026-10-26T19:42:59.6164493Z # duration_ms 55.765238
+2026-10-26T19:42:59.6211228Z ##[error]Process completed with exit code 1.
+2026-10-26T19:42:59.6368140Z Post job cleanup.
+2026-10-26T19:42:59.7206583Z [command]/usr/bin/git version
+2026-10-26T19:42:59.7249018Z git version 2.55.0
+2026-10-26T19:42:59.7290045Z Temporarily overriding HOME='/home/runner/work/_temp/6ca8c9e3-4b2a-4d19-9213-30f853a6dfd1' before making global git config changes
+2026-10-26T19:42:59.7295900Z Adding repository directory to the temporary git global config as a safe directory
+2026-10-26T19:42:59.7297313Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/whyred-demo/whyred-demo
+2026-10-26T19:42:59.7338168Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-10-26T19:42:59.7380253Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-10-26T19:42:59.7641697Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-10-26T19:42:59.7666967Z http.https://github.com/.extraheader
+2026-10-26T19:42:59.7679324Z [command]/usr/bin/git config --local --unset-all http.https://github.com/.extraheader
+2026-10-26T19:42:59.7726683Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-10-26T19:42:59.8000771Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-10-26T19:42:59.8044740Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-10-26T19:42:59.8416981Z Cleaning up orphan processes
+2026-10-26T19:42:59.8802428Z ##[warning]Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@v4, actions/setup-node@v4. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
