@@ -1,3 +1,4 @@
+import { explain } from "@/lib/explain";
 import { fetchFailure, fetchVerdictInput } from "@/lib/github";
 import { trimLog } from "@/lib/trim";
 import { decideVerdict, errorSignature } from "@/lib/verdict";
@@ -10,10 +11,11 @@ export async function POST(request: Request) {
     const { log, ...run } = await fetchFailure(url);
     const trimmedLog = trimLog(log);
     const currentSignature = errorSignature(trimmedLog);
-    const { history, changedFiles, sameCommitPassed } = await fetchVerdictInput(
-      run,
-      currentSignature
-    );
+    const [{ history, changedFiles, sameCommitPassed }, explanation] =
+      await Promise.all([
+        fetchVerdictInput(run, currentSignature),
+        explain(trimmedLog),
+      ]);
     const verdict = decideVerdict({
       currentSignature,
       history,
@@ -22,7 +24,7 @@ export async function POST(request: Request) {
       sameCommitPassed,
     });
 
-    return Response.json({ run, trimmedLog, verdict });
+    return Response.json({ run, trimmedLog, verdict, explanation });
   } catch (error) {
     return Response.json(
       { error: error instanceof Error ? error.message : "Unknown error" },
