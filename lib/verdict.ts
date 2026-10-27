@@ -33,7 +33,16 @@ export function decideVerdict(i: {
   history: { conclusion: "success" | "failure"; signature?: string }[];
   changedFiles: string[];
   trimmedLog: string;
+  sameCommitPassed?: boolean;
 }): Verdict {
+  if (i.sameCommitPassed) {
+    return {
+      kind: "FLAKY",
+      reason: "The same commit passed in another run and failed here, so this is a flaky test.",
+      files: [],
+    };
+  }
+
   const passed = i.history.some((h) => h.conclusion === "success");
   const sameFailure = i.history.filter(
     (h) => h.conclusion === "failure" && h.signature === i.currentSignature
@@ -56,11 +65,17 @@ export function decideVerdict(i: {
   }
 
   const files = i.changedFiles.filter((file) => i.trimmedLog.includes(basename(file)));
+  if (!files.length) {
+    const touched = i.changedFiles.slice(0, 5);
+    return {
+      kind: "YOUR_CHANGE",
+      reason: `None of your changed files appear in the error. Your change touched: ${touched.map(basename).join(", ")}.`,
+      files: touched,
+    };
+  }
   return {
     kind: "YOUR_CHANGE",
-    reason: files.length
-      ? `The failure mentions ${files.map(basename).join(", ")}, which your change touched.`
-      : "The failure is not a known main failure and none of your changed files appear in the log, so check your change.",
+    reason: `The failure mentions ${files.map(basename).join(", ")}, which your change touched.`,
     files,
   };
 }

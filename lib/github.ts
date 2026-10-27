@@ -83,46 +83,48 @@ type Run = {
 
 export async function fetchVerdictInput(run: Run, currentSignature: string) {
   const base = `${API}/repos/${run.owner}/${run.repo}`;
-  const { default_branch } = await getJson<{ default_branch: string }>(base);
 
-  const { workflow_runs } = await getJson<{ workflow_runs: any[] }>(
+  const [{ default_branch }, { workflow_runs }, changedFiles] = await Promise.all([
+    getJson<{ default_branch: string }>(base),
+    getJson<{ workflow_runs: any[] }>(`${base}/actions/runs?head_sha=${run.headSha}&per_page=20`),
+    run.pullRequests[0]
+      ? getJson<{ filename: string }[]>(
+          `${base}/pulls/${run.pullRequests[0].number}/files?per_page=100`
+        ).then((files) => files.map((f) => f.filename))
+      : getJson<{ files: { filename: string }[] }>(
+          `${base}/commits/${run.headSha}`
+        ).then((commit) => commit.files.map((f) => f.filename)),
+  ]);
+
+  const sameCommitPassed = workflow_runs.some(
+    (r) => r.workflow_id === run.workflowId && r.id !== run.runId && r.conclusion === "success"
+  );
+
+  const { workflow_runs: mainRuns } = await getJson<{ workflow_runs: any[] }>(
     `${base}/actions/workflows/${run.workflowId}/runs?branch=${default_branch}&status=completed&per_page=10`
   );
-  const runs = workflow_runs
+  const runs = mainRuns
     .filter((r) => r.id !== run.runId && r.created_at < run.createdAt)
     .sort((a, b) => (a.created_at < b.created_at ? 1 : -1));
 
   const history: { conclusion: "success" | "failure"; signature?: string }[] = [];
-  let failures = 0;
   for (const r of runs) {
-    if (r.conclusion === "success") {
-      history.push({ conclusion: "success" });
-      continue;
-    }
-    if (r.conclusion !== "failure") continue;
-    const entry: { conclusion: "failure"; signature?: string } = { conclusion: "failure" };
-    history.push(entry);
-    if (failures++ >= 3) continue;
-
-    const { jobs } = await getJson<{ jobs: Job[] }>(`${base}/actions/runs/${r.id}/jobs`);
-    const job = jobs.find((j) => j.name === run.job.name);
-    if (!job) continue;
-    const logRes = await fetch(`${base}/actions/jobs/${job.id}/logs`, { headers: headers() });
-    if (!logRes.ok) continue;
-    entry.signature = errorSignature(trimLog(await logRes.text()));
+    if (r.conclusion === "success") history.push({ conclusion: "success" });
+    else if (r.conclusion === "failure") history.push({ conclusion: "failure" });
   }
 
-  const changedFiles = run.pullRequests[0]
-    ? (
-        await getJson<{ filename: string }[]>(
-          `${base}/pulls/${run.pullRequests[0].number}/files?per_page=100`
-        )
-      ).map((f) => f.filename)
-    : (
-        await getJson<{ files: { filename: string }[] }>(
-          `${base}/commits/${run.headSha}`
-        )
-      ).files.map((f) => f.filename);
+  const failures = runs.filter((r) => r.conclusion === "failure").slice(0, 3);
+  const failedEntries = history.filter((h) => h.conclusion === "failure").slice(0, 3);
+  await Promise.all(
+    failedEntries.map(async (entry, i) => {
+      const { jobs } = await getJson<{ jobs: Job[] }>(`${base}/actions/runs/${failures[i].id}/jobs`);
+      const job = jobs.find((j) => j.name === run.job.name);
+      if (!job) return;
+      const logRes = await fetch(`${base}/actions/jobs/${job.id}/logs`, { headers: headers() });
+      if (!logRes.ok) return;
+      entry.signature = errorSignature(trimLog(await logRes.text()));
+    })
+  );
 
-  return { history, changedFiles };
+  return { history, changedFiles, sameCommitPassed };
 }

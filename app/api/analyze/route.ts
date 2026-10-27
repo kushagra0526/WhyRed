@@ -10,8 +10,17 @@ export async function POST(request: Request) {
     const { log, ...run } = await fetchFailure(url);
     const trimmedLog = trimLog(log);
     const currentSignature = errorSignature(trimmedLog);
-    const { history, changedFiles } = await fetchVerdictInput(run, currentSignature);
-    const verdict = decideVerdict({ currentSignature, history, changedFiles, trimmedLog });
+    const { history, changedFiles, sameCommitPassed } = await fetchVerdictInput(
+      run,
+      currentSignature
+    );
+    const verdict = decideVerdict({
+      currentSignature,
+      history,
+      changedFiles,
+      trimmedLog,
+      sameCommitPassed,
+    });
 
     return Response.json({ run, trimmedLog, verdict });
   } catch (error) {
