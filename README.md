@@ -18,7 +18,7 @@ Paste a failed GitHub Actions run URL (public repo).
    | 🟣 **Main was already broken** | The latest run on main failed with the same error signature |
    | 🔴 **It's your change** | Otherwise, plus which of your changed files appear in the error |
 2. **Log trimming:** finds the failed step and strips timestamps, color codes and download noise, so the log fits a small open model.
-3. **AI explanation with verified evidence:** a small open model (Qwen3.8 27B) gives the root cause and fix, citing log line numbers. WhyRed checks that every cited line really exists in the log. If it doesn't, it retries once, then says "not enough info" instead of guessing.
+3. **AI explanation with verified evidence:** a fast open model (DeepSeek V4.1 Flash) gives the root cause and fix, citing log line numbers. WhyRed checks that every cited line really exists in the log. If it doesn't, it retries once, then says "not enough info" instead of guessing.
 
 ## Results
 
